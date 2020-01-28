@@ -11,19 +11,16 @@
 #include <map>
 
 using namespace std;
+char b1 = '.', b2 = '.', b3 = '.', b4 = '.', b5 = '.', b6 = '.', b7 = '.', b8 = '.';
+//char b9 = ".", b10 = ".", b11 = ".", b12 = ".", b13 = ".", b14 = ".", b15 = ".", b16 = ".";
 
-void displayBoard(basic_string<char> *board) {
+void displayBoard() {
 
-    cout << "       ---------    Square #" << endl;
-    for (int i = 0; i < 4; ++i) {
-        cout << "      | "
-             << board[i*4 + 0] << " "
-             << board[i*4 + 1] << " "
-             << board[i*4 + 2] << " "
-             << board[i*4 + 3] << " |  "
-             << i*4 + 1 << "  " << i*4 + 2 << "  "
-             << i*4 + 3 << "  " << i*4 + 4 << endl;
-    }
+    cout << "       ---------    Square #\n      | "
+         << b1 << ' ' << b2 << ' ' << b3 << ' ' << b4 << " |  1  2  3  4"<< endl;
+    cout << "      | . . . . |  5  6  7  8"<< endl;
+    cout << "      | . . . . |  9 10 11 12"<< endl;
+    cout << "      | . . . . | 13 14 15 16"<< endl;
     cout << "       ---------"<< endl;
 
     cout << "      Pieces:     Curved Straight"<< endl;
@@ -36,25 +33,43 @@ int main() {
     bool activeGame = true;
     string userToken;
     int userPosition;
-    string board[16] = {".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","."};
-    map<char, char> availableTokens = {
-            { 'O', 'O' },
-            { 'C', 'C' },
-            { 'o', 'o' }
-    };
+
+    map<string, char> m{{"b1", '.'},{"b2", '.'},{"b3", '.'},{"b4", '.'},
+                        {"b5", '.'},{"b6", '.'},{"b7", '.'},{"b8", '.'},
+                        {"b9", '.'},{"b10", '.'},{"b11", '.'},{"b12", '.'},
+                        {"b13", '.'},{"b14", '.'},{"b15", '.'},{"b16", '.'}};
+
     cout << "Welcome to the game of Cuatro!" << endl;
 
     while (activeGame) {
-        displayBoard(board);
+        displayBoard();
+        string tokens = "OOCCIIZZoocciizz";
+
+        //cout << m.at("b5") << endl;
 
         cout << "Enter destination: ";
-        cin >> userToken;
-        cin >> userPosition;
-        if (userToken == "q") {
+        //cin >> userToken;
+        //cin >> userPosition;
+        string userToken = "I";
+        string userPosition = "5";
+
+        if (m.at("b" + userPosition) == '.') {
+            int i = tokens.find(userToken);
+            cout << "tokens found: " << i << endl;
+            if (i > -1 ){
+                cout << "SUCCESSFUL TOKEN!" << endl;
+            } else {
+                cout << "BAD TOKEN!" << endl;
+            }
+        } else {
+            cout << "Position full, try again" << endl;
+        }
+
+        if (userToken == "q" || true) {
             activeGame = false;
         }
 
-        board[userPosition] = userToken;
+
     }
 
     return 0;
@@ -66,7 +81,18 @@ int main() {
 
 
 
-//cout << "      | . . . . |  1  2  3  4"<< endl; // 0 *4  +1 +2 +3 +4
-//cout << "      | . . . . |  5  6  7  8"<< endl; // 1 *4
-//cout << "      | . . . . |  9 10 11 12"<< endl; // 2 *4
-//cout << "      | . . . . | 13 14 15 16"<< endl; // 3
+
+
+//  string board[16] = {".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","."};
+/*
+for (int i = 0; i < 4; ++i) {
+cout << "      | "
+<< board[i*4 + 0] << " "
+<< board[i*4 + 1] << " "
+<< board[i*4 + 2] << " "
+<< board[i*4 + 3] << " |  "
+<< i*4 + 1 << "  " << i*4 + 2 << "  "
+<< i*4 + 3 << "  " << i*4 + 4 << endl;
+}
+*/
+
