@@ -11,13 +11,12 @@
 #include <map>
 
 using namespace std;
-char b1 = '.', b2 = '.', b3 = '.', b4 = '.', b5 = '.', b6 = '.', b7 = '.', b8 = '.';
-//char b9 = ".", b10 = ".", b11 = ".", b12 = ".", b13 = ".", b14 = ".", b15 = ".", b16 = ".";
 
-void displayBoard() {
+
+void displayBoard(map<string, char> m) {
 
     cout << "       ---------    Square #\n      | "
-         << b1 << ' ' << b2 << ' ' << b3 << ' ' << b4 << " |  1  2  3  4"<< endl;
+         << m.at("b1") << ' ' <<m.at( "b2") << ' ' << m.at("b3") << ' ' << m.at("b4") << " |  1  2  3  4"<< endl;
     cout << "      | . . . . |  5  6  7  8"<< endl;
     cout << "      | . . . . |  9 10 11 12"<< endl;
     cout << "      | . . . . | 13 14 15 16"<< endl;
@@ -31,8 +30,9 @@ void displayBoard() {
 
 int main() {
     bool activeGame = true;
-    string userToken;
-    int userPosition;
+    char userToken;
+    string userPosition;
+    string tokens = "OOCCIIZZoocciizz";
 
     map<string, char> m{{"b1", '.'},{"b2", '.'},{"b3", '.'},{"b4", '.'},
                         {"b5", '.'},{"b6", '.'},{"b7", '.'},{"b8", '.'},
@@ -42,30 +42,29 @@ int main() {
     cout << "Welcome to the game of Cuatro!" << endl;
 
     while (activeGame) {
-        displayBoard();
-        string tokens = "OOCCIIZZoocciizz";
-
-        //cout << m.at("b5") << endl;
+        displayBoard(m);
 
         cout << "Enter destination: ";
         //cin >> userToken;
         //cin >> userPosition;
-        string userToken = "I";
-        string userPosition = "5";
+        userToken = 'I';
+        userPosition = "5";
 
         if (m.at("b" + userPosition) == '.') {
             int i = tokens.find(userToken);
             cout << "tokens found: " << i << endl;
             if (i > -1 ){
                 cout << "SUCCESSFUL TOKEN!" << endl;
+                tokens.replace(i,1,"");
+                m["b"+userPosition] = userToken;
             } else {
                 cout << "BAD TOKEN!" << endl;
             }
         } else {
             cout << "Position full, try again" << endl;
         }
-
-        if (userToken == "q" || true) {
+        displayBoard(m);
+        if (userToken == 'q' ||true|| tokens.size() == 0) {
             activeGame = false;
         }
 
@@ -81,6 +80,11 @@ int main() {
 
 
 
+
+
+
+//char b1 = '.', b2 = '.', b3 = '.', b4 = '.', b5 = '.', b6 = '.', b7 = '.', b8 = '.';
+//char b9 = ".", b10 = ".", b11 = ".", b12 = ".", b13 = ".", b14 = ".", b15 = ".", b16 = ".";
 
 
 //  string board[16] = {".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","."};
