@@ -55,7 +55,7 @@ int main() {
             cout << "tokens found: " << i << endl;
             if (i > -1 ){
                 cout << "SUCCESSFUL TOKEN!" << endl;
-                tokens.replace(i,1,"");
+                tokens.replace(i,1," ");
                 m["b"+userPosition] = userToken;
             } else {
                 cout << "BAD TOKEN!" << endl;
@@ -64,10 +64,9 @@ int main() {
             cout << "Position full, try again" << endl;
         }
         displayBoard(m);
-        if (userToken == 'q' ||true|| tokens.size() == 0) {
+        if (userToken == 'q' ||true|| tokens == "                ") {
             activeGame = false;
         }
-
 
     }
 
