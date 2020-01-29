@@ -1,9 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Cuatro.dir/main.cpp.obj"
-  "Cuatro.exe"
-  "Cuatro.exe.manifest"
+  "CMakeFiles/Cuatro.dir/main.cpp.o"
+  "Cuatro"
   "Cuatro.pdb"
-  "libCuatro.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

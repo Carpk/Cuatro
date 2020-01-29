@@ -13,17 +13,19 @@
 using namespace std;
 
 
-void displayBoard(map<string, char> m) {
+void displayBoard(map<string, char> m, string t) {
 
     cout << "       ---------    Square #\n      | "
-         << m.at("b1") << ' ' <<m.at( "b2") << ' ' << m.at("b3") << ' ' << m.at("b4") << " |  1  2  3  4"<< endl;
-    cout << "      | . . . . |  5  6  7  8"<< endl;
-    cout << "      | . . . . |  9 10 11 12"<< endl;
-    cout << "      | . . . . | 13 14 15 16"<< endl;
-    cout << "       ---------"<< endl;
-
+         << m.at("b1") << ' ' << m.at("b2") << ' ' << m.at("b3")
+         << ' ' << m.at("b4") << " |  1  2  3  4\n      | "
+         << m.at("b5") << ' ' << m.at("b6") << ' ' << m.at("b7")
+         << " . |  5  6  7  8" << endl;
+    cout << "      | . . . . |  9 10 11 12" << endl;
+    cout << "      | . . . . | 13 14 15 16" << endl;
+    cout << "       ---------" << endl;
     cout << "      Pieces:     Curved Straight"<< endl;
-    cout << "            Upper: OO/CC  II/ZZ"<< endl;
+    cout << "            Upper: " << t.at(0) << t.at(1) << "/" << t.at(2) << t.at(3)
+         << "  " << t.at(4) << t.at(5) << "/" << t.at(6) << t.at(7) << endl;
     cout << "            Lower: oo/cc  ii/zz"<< endl;
     cout << "                Vowel/Consonant"<< endl;
 }
@@ -34,15 +36,15 @@ int main() {
     string userPosition;
     string tokens = "OOCCIIZZoocciizz";
 
-    map<string, char> m{{"b1", '.'},{"b2", '.'},{"b3", '.'},{"b4", '.'},
-                        {"b5", '.'},{"b6", '.'},{"b7", '.'},{"b8", '.'},
-                        {"b9", '.'},{"b10", '.'},{"b11", '.'},{"b12", '.'},
+    map<string, char> m{{ "b1", '.'},{ "b2", '.'},{ "b3", '.'},{ "b4", '.'},
+                        { "b5", '.'},{ "b6", '.'},{ "b7", '.'},{ "b8", '.'},
+                        { "b9", '.'},{"b10", '.'},{"b11", '.'},{"b12", '.'},
                         {"b13", '.'},{"b14", '.'},{"b15", '.'},{"b16", '.'}};
 
     cout << "Welcome to the game of Cuatro!" << endl;
 
     while (activeGame) {
-        displayBoard(m);
+        displayBoard(m, tokens);
 
         cout << "Enter destination: ";
         //cin >> userToken;
@@ -63,8 +65,14 @@ int main() {
         } else {
             cout << "Position full, try again" << endl;
         }
-        displayBoard(m);
-        if (userToken == 'q' ||true|| tokens == "                ") {
+        displayBoard(m, tokens);
+        if (userToken == 'q' || true || tokens == "                ") {
+            int hexVal;
+            //stringstream strm;
+            //strm << "                ";
+            //strm >> hex >> hexVal;
+            //stoi(s, 0, 16)
+            cout << "HEX: " << strtol("                ", 0, 16) << endl;
             activeGame = false;
         }
 
