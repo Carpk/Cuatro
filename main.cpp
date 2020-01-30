@@ -8,20 +8,24 @@
  * ---------------------------------------------
  */
 #include <iostream>
+//#include <optional>
 #include <map>
+#include <regex>
 
 using namespace std;
 
+// these are my global variables
+char b1 = '.',  b2 = '.',  b3 = '.',  b4 = '.',  b5 = '.',  b6 = '.',  b7 = '.',  b8 = '.';
+char b9 = '.', b10 = '.', b11 = '.', b12 = '.', b13 = '.', b14 = '.', b15 = '.', b16 = '.';
+string t = "OOCCIIZZoocciizz";
 
-void displayBoard(map<string, char> m, string t) {
+void displayBoard() {
 
     cout << "       ---------    Square #\n      | "
-         << m.at("b1") << ' ' << m.at("b2") << ' ' << m.at("b3")
-         << ' ' << m.at("b4") << " |  1  2  3  4\n      | "
-         << m.at("b5") << ' ' << m.at("b6") << ' ' << m.at("b7")
-         << " . |  5  6  7  8" << endl;
-    cout << "      | . . . . |  9 10 11 12" << endl;
-    cout << "      | . . . . | 13 14 15 16" << endl;
+         << b1  << ' ' << b2  << ' ' << b3  << ' ' << b4  << " |  1  2  3  4\n      | "
+         << b5  << ' ' << b6  << ' ' << b7  << ' ' << b8  << " |  5  6  7  8\n      | "
+         << b9  << ' ' << b10 << ' ' << b11 << ' ' << b12 << " |  9 10 11 12\n      | "
+         << b13 << ' ' << b14 << ' ' << b15 << ' ' << b16 << " | 13 14 15 16" << endl;
     cout << "       ---------" << endl;
     cout << "      Pieces:     Curved Straight"<< endl;
     cout << "            Upper: " << t.at(0) << t.at(1) << "/" << t.at(2) << t.at(3)
@@ -30,21 +34,31 @@ void displayBoard(map<string, char> m, string t) {
     cout << "                Vowel/Consonant"<< endl;
 }
 
+void isTokenAvailable (char t) {
+
+    for (int i=1; i <= 16; ++i) {
+        optional<char> 'b' + to_string(i);
+        if input == 'b' + to_string(i) {
+            b + i -> variable
+        }
+        //create(false).value_or("empty")
+    }
+}
+
+void isPositionAvailable(string &n) {
+    cout << "Value is: " << n << endl;
+}
+
+
 int main() {
     bool activeGame = true;
     char userToken;
     string userPosition;
-    string tokens = "OOCCIIZZoocciizz";
-
-    map<string, char> m{{ "b1", '.'},{ "b2", '.'},{ "b3", '.'},{ "b4", '.'},
-                        { "b5", '.'},{ "b6", '.'},{ "b7", '.'},{ "b8", '.'},
-                        { "b9", '.'},{"b10", '.'},{"b11", '.'},{"b12", '.'},
-                        {"b13", '.'},{"b14", '.'},{"b15", '.'},{"b16", '.'}};
 
     cout << "Welcome to the game of Cuatro!" << endl;
 
     while (activeGame) {
-        displayBoard(m, tokens);
+        displayBoard();
 
         cout << "Enter destination: ";
         //cin >> userToken;
@@ -52,21 +66,22 @@ int main() {
         userToken = 'I';
         userPosition = "5";
 
-        if (m.at("b" + userPosition) == '.') {
-            int i = tokens.find(userToken);
+        isPositionAvailable();
+        if (true) {
+            int i = t.find(userToken);
             cout << "tokens found: " << i << endl;
             if (i > -1 ){
                 cout << "SUCCESSFUL TOKEN!" << endl;
-                tokens.replace(i,1," ");
-                m["b"+userPosition] = userToken;
+                t.replace(i,1," ");
+                //m["b" + userPosition] = userToken;
             } else {
                 cout << "BAD TOKEN!" << endl;
             }
         } else {
             cout << "Position full, try again" << endl;
         }
-        displayBoard(m, tokens);
-        if (userToken == 'q' || true || tokens == "                ") {
+        displayBoard();
+        if (userToken == 'q' || true || t == "                ") {
             int hexVal;
             //stringstream strm;
             //strm << "                ";
@@ -82,17 +97,28 @@ int main() {
 }
 
 
+// " " is 32
 
+/*
+"................"
 
+"cc.."
+"OO.."
+"...."
+"...."
 
+"c..."
+".O.."
+"..c."
+"...o"
+*/
 
-
-
-
-
-//char b1 = '.', b2 = '.', b3 = '.', b4 = '.', b5 = '.', b6 = '.', b7 = '.', b8 = '.';
-//char b9 = ".", b10 = ".", b11 = ".", b12 = ".", b13 = ".", b14 = ".", b15 = ".", b16 = ".";
-
+/*
+map<string, char> m{{ "b1", '.'},{ "b2", '.'},{ "b3", '.'},{ "b4", '.'},
+                    { "b5", '.'},{ "b6", '.'},{ "b7", '.'},{ "b8", '.'},
+                    { "b9", '.'},{"b10", '.'},{"b11", '.'},{"b12", '.'},
+                    {"b13", '.'},{"b14", '.'},{"b15", '.'},{"b16", '.'}};
+*/
 
 //  string board[16] = {".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","."};
 /*
