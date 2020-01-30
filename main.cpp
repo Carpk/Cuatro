@@ -18,6 +18,7 @@ using namespace std;
 char b1 = '.',  b2 = '.',  b3 = '.',  b4 = '.',  b5 = '.',  b6 = '.',  b7 = '.',  b8 = '.';
 char b9 = '.', b10 = '.', b11 = '.', b12 = '.', b13 = '.', b14 = '.', b15 = '.', b16 = '.';
 string t = "OOCCIIZZoocciizz";
+bool activeGame = true;
 
 void displayBoard() {
 
@@ -45,8 +46,38 @@ void isTokenAvailable (char t) {
     }
 }
 
-void isPositionAvailable(string &n) {
-    cout << "Value is: " << n << endl;
+void isPositionAvailable() {
+    //cout << "Value is: " << n << endl;
+}
+
+void checkCombo(char a,char b,char c,char d) {
+    // implement regex to check for matching combos
+    activeGame = regex? false : activeGame;
+}
+
+// 1  2  3  4
+// 5  6  7  8
+// 9 10 11 12
+//13 14 15 16
+
+void checkForWin() {
+    checkCombo( b1, b2, b5, b6);
+    checkCombo( b3, b4, b7, b8);
+    checkCombo( b9,b10,b13,b14);
+    checkCombo(b11,b12,b15,b16);
+
+    checkCombo( b1, b2, b3, b4);
+    checkCombo( b5, b6, b7, b8);
+    checkCombo( b9,b10,b11,b12);
+    checkCombo(b13,b14,b15,b16);
+
+    checkCombo(b1,b5,b9,b13);
+    checkCombo(b2,b6,b10,b14);
+    checkCombo(b3,b7,b11,b15);
+    checkCombo(b4,b8,b12,b16);
+
+    checkCombo(b1,b6,b11,b16);
+    checkCombo(b4,b7,b10,b13);
 }
 
 
