@@ -6,11 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/Users/Shawn/CLionProjects/ideal-octo-couscous/main.cpp
+C:/Users/Invalid/Projects/Cuatro/main.cpp
 iostream
 -
 map
 -
 regex
+-
+string
 -
 
