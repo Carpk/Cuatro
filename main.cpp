@@ -23,9 +23,7 @@ char b1 = '.',  b2 = '.',  b3 = '.',  b4 = '.',  b5 = '.',  b6 = '.',  b7 = '.',
 char b9 = '.', b10 = '.', b11 = '.', b12 = '.', b13 = '.', b14 = '.', b15 = '.', b16 = '.';
 
 
-
 void displayBoard() {
-
     cout << "       ---------    Square #\n      | "
          << b1  << ' ' << b2  << ' ' << b3  << ' ' << b4  << " |  1  2  3  4\n      | "
          << b5  << ' ' << b6  << ' ' << b7  << ' ' << b8  << " |  5  6  7  8\n      | "
@@ -39,15 +37,26 @@ void displayBoard() {
     cout << "                Vowel/Consonant"<< endl;
 }
 
-void isTokenAvailable (char t) {
-
-    for (int i=1; i <= 16; ++i) {
-        //optional<char> 'b' + to_string(i);
-        //if (input == 'b' + to_string(i)) {
-        //    b + i -> variable
-        //}
-        //create(false).value_or("empty")
+void assignToBoard(char c, int i) {
+    switch (i-48) {
+        case  1: b1  = c; break;
+        case  2: b2  = c;break;
+        case  3: b3  = c;break;
+        case  4: b4  = c;break;
+        case  5: b5  = c;break;
+        case  6: b6  = c;break;
+        case  7: b7  = c;break;
+        case  8: b8  = c;break;
+        case  9: b9  = c;break;
+        case 10: b10 = c;break;
+        case 11: b11 = c;break;
+        case 12: b12 = c;break;
+        case 13: b13 = c;break;
+        case 14: b14 = c;break;
+        case 15: b15 = c;break;
+        case 16: b16 = c;break;
     }
+
 }
 
 bool isPositionAvailable(int i) {
@@ -86,7 +95,7 @@ void checkCombo(char a,char b,char c,char d) {
     }
 
     if (strIsFound(a) && strIsFound(b) && strIsFound(c) && strIsFound(d)){
-        cout << "FOUND STRAIGHT COMBO" << endl;
+        cout << "FOUND STRAIGHT COMBO" << a << b << c << d << constStraights << endl;
         activeGame = false;
     }
 }
@@ -132,17 +141,15 @@ int main() {
         displayBoard();
 
         cout << "Enter destination: ";
-        //cin >> userToken;
-        //cin >> userPosition;
-        userToken = 'I';
-        userPosition = '1';
+        cin >> userToken;
+        cin >> userPosition;
 
         if ((isPositionAvailable(userPosition)) == 1) {
             idx = avlTkns.find(userToken);
             if (idx > -1 ){
                 cout << "SUCCESSFUL TOKEN!" << endl;
                 avlTkns.replace(idx ,1," ");
-
+                assignToBoard(userToken, userPosition);
                 checkForWin();
             } else {
                 cout << "BAD TOKEN!" << endl;
@@ -150,8 +157,8 @@ int main() {
         } else {
             cout << "Position full, try again" << endl;
         }
-        //displayBoard();
-        if (userToken == 'q' || true || avlTkns == "                ") {
+
+        if (userToken == 'q' || avlTkns == "                ") {
             //cout << "TEST 16 SPACES: " << (avlTkns > 512) << endl;
 
             activeGame = false;
@@ -164,48 +171,4 @@ int main() {
 
 
 
-
-
-
-
-
-
-
-
-
-// " " is 32
-
-/*
-"................"
-
-"cc.."
-"OO.."
-"...."
-"...."
-
-"c..."
-".O.."
-"..c."
-"...o"
-*/
-
-/*
-map<string, char> m{{ "b1", '.'},{ "b2", '.'},{ "b3", '.'},{ "b4", '.'},
-                    { "b5", '.'},{ "b6", '.'},{ "b7", '.'},{ "b8", '.'},
-                    { "b9", '.'},{"b10", '.'},{"b11", '.'},{"b12", '.'},
-                    {"b13", '.'},{"b14", '.'},{"b15", '.'},{"b16", '.'}};
-*/
-
-//  string board[16] = {".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","."};
-/*
-for (int i = 0; i < 4; ++i) {
-cout << "      | "
-<< board[i*4 + 0] << " "
-<< board[i*4 + 1] << " "
-<< board[i*4 + 2] << " "
-<< board[i*4 + 3] << " |  "
-<< i*4 + 1 << "  " << i*4 + 2 << "  "
-<< i*4 + 3 << "  " << i*4 + 4 << endl;
-}
-*/
 
