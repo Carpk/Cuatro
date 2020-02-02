@@ -1,11 +1,23 @@
-/*----------------------------------------------
+/*----------------------------------------------------------
  * Program 2: Cuatro
  *
  * Class: CS 141, Spring 2020. Tue 4pm lab
  * System: CLion on Windows 10 & CLion on Mac
  * Author: Shawn Klein
  *
- * ---------------------------------------------
+ * NOTE: To the users browsing my repo, this
+ * project was built following the constraints
+ * listed below:
+ * 2) The board must be displayed and manipulated
+ * by using 16 separate variables representing the
+ * 16 locations on the board.
+ * 3) You may store potential characters remaining
+ * to be played ("OO/CC  II/ZZ" and "oo/cc  ii/zz")
+ * in one or more C++ strings.
+ * 4) You may not use arrays or vectors or C++ string
+ * variables anywhere in your program besides what
+ * has been specifically described above.
+ * ---------------------------------------------------------
  */
 #include <iostream>
 #include <string>
@@ -40,21 +52,21 @@ void displayBoard() {
 void assignToBoard(char c, int i) {
     switch (i-48) {
         case  1: b1  = c; break;
-        case  2: b2  = c;break;
-        case  3: b3  = c;break;
-        case  4: b4  = c;break;
-        case  5: b5  = c;break;
-        case  6: b6  = c;break;
-        case  7: b7  = c;break;
-        case  8: b8  = c;break;
-        case  9: b9  = c;break;
-        case 10: b10 = c;break;
-        case 11: b11 = c;break;
-        case 12: b12 = c;break;
-        case 13: b13 = c;break;
-        case 14: b14 = c;break;
-        case 15: b15 = c;break;
-        case 16: b16 = c;break;
+        case  2: b2  = c; break;
+        case  3: b3  = c; break;
+        case  4: b4  = c; break;
+        case  5: b5  = c; break;
+        case  6: b6  = c; break;
+        case  7: b7  = c; break;
+        case  8: b8  = c; break;
+        case  9: b9  = c; break;
+        case 10: b10 = c; break;
+        case 11: b11 = c; break;
+        case 12: b12 = c; break;
+        case 13: b13 = c; break;
+        case 14: b14 = c; break;
+        case 15: b15 = c; break;
+        case 16: b16 = c; break;
     }
 
 }
@@ -77,6 +89,7 @@ bool isPositionAvailable(int i) {
         case 14: return b14 == '.' ? true : false;
         case 15: return b15 == '.' ? true : false;
         case 16: return b16 == '.' ? true : false;
+        default: return false;
     }
 }
 
@@ -90,21 +103,15 @@ bool strIsFound(char c) {
 
 void checkCombo(char a,char b,char c,char d) {
     if (curIsFound(a) && curIsFound(b) && curIsFound(c) && curIsFound(d)){
-        cout << "FOUND CURLY COMBO" << endl;
         activeGame = false;
     }
 
     if (strIsFound(a) && strIsFound(b) && strIsFound(c) && strIsFound(d)){
-        cout << "FOUND STRAIGHT COMBO" << a << b << c << d << constStraights << endl;
         activeGame = false;
     }
 }
 
-
 void checkForWin() {
-    // test function
-    //checkCombo('z' ,'z' ,'z' ,'z'); // REMOVE ME
-
     // check quadrants
     checkCombo( b1, b2, b5, b6);
     checkCombo( b3, b4, b7, b8);
@@ -128,37 +135,52 @@ void checkForWin() {
     checkCombo(b4,b7,b10,b13);
 }
 
+bool emptyTokens() {
+    int stringVal;
+    string blankStr =  "                ";
+    for (int i = 0; i < avlTkns.size(); ++i) {
+        stringVal += avlTkns.at(i);
+    }
+    cout << "STRING VALUE: " << stringVal << endl;
+    return stringVal == 558;
+}
 
 int main() {
     bool activeGame = true;
     char userToken;
     char userPosition;
     int idx;
+    int turnNum = 1;
 
     cout << "Welcome to the game of Cuatro!" << endl;
 
     while (activeGame) {
         displayBoard();
 
-        cout << "Enter destination: ";
+        cout << turnNum << ". Player " << (turnNum % 2 ? "1" : "2")
+             << " enter piece, and Player "<< (turnNum % 2 ? "2" : "1")
+             << " enter destination: ";
+
         cin >> userToken;
         cin >> userPosition;
+        cout << endl;
 
         if ((isPositionAvailable(userPosition)) == 1) {
             idx = avlTkns.find(userToken);
             if (idx > -1 ){
-                cout << "SUCCESSFUL TOKEN!" << endl;
+                turnNum++;
                 avlTkns.replace(idx ,1," ");
                 assignToBoard(userToken, userPosition);
                 checkForWin();
             } else {
-                cout << "BAD TOKEN!" << endl;
+                cout << "*** Sorry, that is an invalid piece.  Please retry." << endl;
             }
         } else {
-            cout << "Position full, try again" << endl;
+            cout << "*** Sorry, that destination is occupied.  Please retry." << endl;
         }
 
-        if (userToken == 'q' || avlTkns == "                ") {
+        cout << "empty tokesns returns: " << emptyTokens() << endl;
+        if (userToken == 'q' || emptyTokens() == 1) {
             //cout << "TEST 16 SPACES: " << (avlTkns > 512) << endl;
 
             activeGame = false;
