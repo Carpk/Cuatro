@@ -27,6 +27,10 @@ using namespace std;
 // these are my global variables
 const string constCurlies = "oOcC";
 const string constStraights = "iIzZ";
+const string constConsts = "cCzZ";
+const string constVowel = "oOiI";
+const string constUpper = "OCIZ";
+const string constLower = "ociz";
 
 string avlTkns = "OOCCIIZZoocciizz";
 bool activeGame = true;
@@ -34,6 +38,22 @@ bool activeGame = true;
 char b1 = '.',  b2 = '.',  b3 = '.',  b4 = '.',  b5 = '.',  b6 = '.',  b7 = '.',  b8 = '.';
 char b9 = '.', b10 = '.', b11 = '.', b12 = '.', b13 = '.', b14 = '.', b15 = '.', b16 = '.';
 
+void displayInstructions() {
+    cout << "Welcome to the game of Cuatro, where you try to complete a set      \n"
+         << "of four pieces that are alike.  Players take turns making moves.    \n"
+         << "On each move your OPPONENT chooses the piece, then YOU get to       \n"
+         << "place it on the board.  If you create a set of four alike when      \n"
+         << "you place your piece, then you win!       \n"
+         << "\n"
+         << "A set of four alike can be completed by using four all upper (or all\n"
+         << "lower) case characters, four all vowels (or all consonants), or four\n"
+         << "all curved (or all straight-lined). Curved letters are 'O' and 'C'\n"
+         << "(upper or lower), and straight-line letters are 'I' and 'Z' (upper or\n"
+         << "lower). Groups of four can be created in a row, column, diagonal, or\n"
+         << "corner quadrant.\n"
+         << "\n"
+         << "When prompted for input you may also enter 'x' or 'X' to exit." << endl;
+}
 
 void displayBoard() {
     cout << "       ---------    Square #\n      | "
@@ -50,7 +70,7 @@ void displayBoard() {
 }
 
 void assignToBoard(char c, int i) {
-    switch (i-48) {
+    switch (i) {
         case  1: b1  = c; break;
         case  2: b2  = c; break;
         case  3: b3  = c; break;
@@ -72,7 +92,7 @@ void assignToBoard(char c, int i) {
 }
 
 bool isPositionAvailable(int i) {
-    switch (i-48) {
+    switch (i) {
         case  1: return b1  == '.' ? true : false;
         case  2: return b2  == '.' ? true : false;
         case  3: return b3  == '.' ? true : false;
@@ -93,22 +113,43 @@ bool isPositionAvailable(int i) {
     }
 }
 
-bool curIsFound(char c) {
+// OICZ  (all upper case)
+// ZiiI  (all straight-line)
+// ZzCc  (all consonants)
+bool isCurl(char c) {
     return constCurlies.find(c) != string::npos;
 }
-
-bool strIsFound(char c) {
+bool isStrait(char c) {
     return constStraights.find(c) != string::npos;
+}
+bool isConst(char c) {
+    return constConsts.find(c) != string::npos;
+}
+bool isVowel(char c) {
+    return constVowel.find(c) != string::npos;
+}
+bool isUpper(char c) {
+    return constUpper.find(c) != string::npos;
+}
+bool isLower(char c) {
+    return constLower.find(c) != string::npos;
 }
 
 void checkCombo(char a,char b,char c,char d) {
-    if (curIsFound(a) && curIsFound(b) && curIsFound(c) && curIsFound(d)){
+    if (isCurl(a) && isCurl(b) && isCurl(c) && isCurl(d)){
+        activeGame = false;
+    } else if (isStrait(a) && isStrait(b) && isStrait(c) && isStrait(d)){
+        activeGame = false;
+    } else if (isConst(a) && isConst(b) && isConst(c) && isConst(d)){
+        activeGame = false;
+    } else if (isVowel(a) && isVowel(b) && isVowel(c) && isVowel(d)){
+        activeGame = false;
+    } else if (isUpper(a) && isUpper(b) && isUpper(c) && isUpper(d)){
+        activeGame = false;
+    } else if (isLower(a) && isLower(b) && isLower(c) && isLower(d)){
         activeGame = false;
     }
 
-    if (strIsFound(a) && strIsFound(b) && strIsFound(c) && strIsFound(d)){
-        activeGame = false;
-    }
 }
 
 void checkForWin() {
@@ -137,24 +178,24 @@ void checkForWin() {
 
 bool emptyTokens() {
     int stringVal;
-    string blankStr =  "                ";
     for (int i = 0; i < avlTkns.size(); ++i) {
         stringVal += avlTkns.at(i);
     }
-    cout << "STRING VALUE: " << stringVal << endl;
+
     return stringVal == 558;
 }
 
+
 int main() {
-    bool activeGame = true;
     char userToken;
-    char userPosition;
+    string userPosition;
+    int posNum;
     int idx;
     int turnNum = 1;
 
-    cout << "Welcome to the game of Cuatro!" << endl;
+    displayInstructions();
 
-    while (activeGame) {
+    while (activeGame == true) {
         displayBoard();
 
         cout << turnNum << ". Player " << (turnNum % 2 ? "1" : "2")
@@ -162,35 +203,40 @@ int main() {
              << " enter destination: ";
 
         cin >> userToken;
-        cin >> userPosition;
-        cout << endl;
+        if (userToken == 'X' ||userToken == 'x' || emptyTokens() == 1) {
+            cout << "Exiting program..."  << endl;
+            activeGame = false;
+            break;
+        }
 
-        if ((isPositionAvailable(userPosition)) == 1) {
+        cin >> userPosition;
+        posNum = stoi(userPosition);
+
+        if ((isPositionAvailable(posNum)) == 1) {
             idx = avlTkns.find(userToken);
             if (idx > -1 ){
                 turnNum++;
                 avlTkns.replace(idx ,1," ");
-                assignToBoard(userToken, userPosition);
+                assignToBoard(userToken, posNum);
                 checkForWin();
             } else {
                 cout << "*** Sorry, that is an invalid piece.  Please retry." << endl;
             }
         } else {
-            cout << "*** Sorry, that destination is occupied.  Please retry." << endl;
+             if (posNum < 1 || posNum > 16) {
+                cout << "*** Sorry, that destination is invalid.  Please retry." << endl;
+            } else if (!constCurlies.find(userToken) || !constStraights.find(userToken)) {
+                 cout << "*** Sorry, that is an invalid piece.  Please retry." << endl;
+             } else {
+                 cout << "*** Sorry, that destination is occupied.  Please retry." << endl;
+            }
         }
-
-        cout << "empty tokesns returns: " << emptyTokens() << endl;
-        if (userToken == 'q' || emptyTokens() == 1) {
-            //cout << "TEST 16 SPACES: " << (avlTkns > 512) << endl;
-
-            activeGame = false;
+        if (activeGame == false) {
+            cout << "*** Player " << (turnNum % 2 ? "1" : "2") << " you won!" << endl;
+            break;
         }
 
     }
 
     return 0;
 }
-
-
-
-
