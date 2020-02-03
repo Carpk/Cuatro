@@ -25,8 +25,8 @@
 using namespace std;
 
 // these are my global variables
-const string constCurlies = "oOcC";
-const string constStraights = "iIzZ";
+const string constCurly = "oOcC";
+const string constStrait = "iIzZ";
 const string constConsts = "cCzZ";
 const string constVowel = "oOiI";
 const string constUpper = "OCIZ";
@@ -117,10 +117,10 @@ bool isPositionAvailable(int i) {
 // ZiiI  (all straight-line)
 // ZzCc  (all consonants)
 bool isCurl(char c) {
-    return constCurlies.find(c) != string::npos;
+    return constCurly.find(c) != string::npos;
 }
 bool isStrait(char c) {
-    return constStraights.find(c) != string::npos;
+    return constStrait.find(c) != string::npos;
 }
 bool isConst(char c) {
     return constConsts.find(c) != string::npos;
@@ -195,7 +195,7 @@ int main() {
 
     displayInstructions();
 
-    while (activeGame == true) {
+    while (activeGame) {
         displayBoard();
 
         cout << turnNum << ". Player " << (turnNum % 2 ? "1" : "2")
@@ -203,7 +203,7 @@ int main() {
              << " enter destination: ";
 
         cin >> userToken;
-        if (userToken == 'X' ||userToken == 'x' || emptyTokens() == 1) {
+        if (userToken == 'X' ||userToken == 'x' || emptyTokens()) {
             cout << "Exiting program..."  << endl;
             activeGame = false;
             break;
@@ -225,13 +225,14 @@ int main() {
         } else {
              if (posNum < 1 || posNum > 16) {
                 cout << "*** Sorry, that destination is invalid.  Please retry." << endl;
-            } else if (!constCurlies.find(userToken) || !constStraights.find(userToken)) {
+            } else if (!constCurly.find(userToken) || !constStrait.find(userToken)) {
                  cout << "*** Sorry, that is an invalid piece.  Please retry." << endl;
              } else {
                  cout << "*** Sorry, that destination is occupied.  Please retry." << endl;
             }
         }
         if (activeGame == false) {
+            displayBoard();
             cout << "*** Player " << (turnNum % 2 ? "1" : "2") << " you won!" << endl;
             break;
         }
