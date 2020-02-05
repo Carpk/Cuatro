@@ -24,7 +24,7 @@
 
 using namespace std;
 
-// these are my global variables
+// these are the global variables
 const string constCurly = "oOcC";
 const string constStrait = "iIzZ";
 const string constConsts = "cCzZ";
@@ -113,9 +113,7 @@ bool isPositionAvailable(int i) {
     }
 }
 
-// OICZ  (all upper case)
-// ZiiI  (all straight-line)
-// ZzCc  (all consonants)
+
 bool isCurl(char c) {
     return constCurly.find(c) != string::npos;
 }
@@ -188,8 +186,7 @@ bool emptyTokens() {
 
 int main() {
     char userToken;
-    string userPosition;
-    int posNum;
+    int userPosition;
     int idx;
     int turnNum = 1;
 
@@ -210,20 +207,19 @@ int main() {
         }
 
         cin >> userPosition;
-        posNum = stoi(userPosition);
 
-        if ((isPositionAvailable(posNum)) == 1) {
+        if ((isPositionAvailable(userPosition)) == 1) {
             idx = avlTkns.find(userToken);
             if (idx > -1 ){
                 turnNum++;
                 avlTkns.replace(idx ,1," ");
-                assignToBoard(userToken, posNum);
+                assignToBoard(userToken, userPosition);
                 checkForWin();
             } else {
                 cout << "*** Sorry, that is an invalid piece.  Please retry." << endl;
             }
         } else {
-             if (posNum < 1 || posNum > 16) {
+             if (userPosition < 1 || userPosition > 16) {
                 cout << "*** Sorry, that destination is invalid.  Please retry." << endl;
             } else if (!constCurly.find(userToken) || !constStrait.find(userToken)) {
                  cout << "*** Sorry, that is an invalid piece.  Please retry." << endl;
