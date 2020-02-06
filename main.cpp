@@ -77,28 +77,29 @@ void assignToBoard(char c, int i) {
         case 14: b14 = c; break;
         case 15: b15 = c; break;
         case 16: b16 = c; break;
+        default: break;
     }
 }
 
 // Checks if space is available on board
 bool isPositionAvailable(int i) {
     switch (i) {
-        case  1: return b1  == '.' ? true : false;
-        case  2: return b2  == '.' ? true : false;
-        case  3: return b3  == '.' ? true : false;
-        case  4: return b4  == '.' ? true : false;
-        case  5: return b5  == '.' ? true : false;
-        case  6: return b6  == '.' ? true : false;
-        case  7: return b7  == '.' ? true : false;
-        case  8: return b8  == '.' ? true : false;
-        case  9: return b9  == '.' ? true : false;
-        case 10: return b10 == '.' ? true : false;
-        case 11: return b11 == '.' ? true : false;
-        case 12: return b12 == '.' ? true : false;
-        case 13: return b13 == '.' ? true : false;
-        case 14: return b14 == '.' ? true : false;
-        case 15: return b15 == '.' ? true : false;
-        case 16: return b16 == '.' ? true : false;
+        case  1: return b1  == '.';
+        case  2: return b2  == '.';
+        case  3: return b3  == '.';
+        case  4: return b4  == '.';
+        case  5: return b5  == '.';
+        case  6: return b6  == '.';
+        case  7: return b7  == '.';
+        case  8: return b8  == '.';
+        case  9: return b9  == '.';
+        case 10: return b10 == '.';
+        case 11: return b11 == '.';
+        case 12: return b12 == '.';
+        case 13: return b13 == '.';
+        case 14: return b14 == '.';
+        case 15: return b15 == '.';
+        case 16: return b16 == '.';
         default: return false;
     }
 }
@@ -131,7 +132,7 @@ bool isLower(char c) {
 
 // Checks for win combinations
 void checkCombo(char a,char b,char c,char d, bool& activeGame) {
-    if (isCurl(a) && isCurl(b) && isCurl(c) && isCurl(d)) {
+    if (isCurl(a) && isCurl(b) && isCurl(c) && isCurl(d)){
         activeGame = false;
     } else if (isStrait(a) && isStrait(b) && isStrait(c) && isStrait(d)){
         activeGame = false;
@@ -172,7 +173,7 @@ void checkForWin(bool& activeGame) {
 }
 
 // Checks to see if additional tokens are available
-bool emptyTokens(string availableTokens) {
+bool emptyTokens(string& availableTokens) {
     return availableTokens == "                " ;
 }
 
