@@ -5,9 +5,8 @@
  * System: CLion on Windows 10 & CLion on Mac
  * Author: Shawn Klein
  *
- * NOTE: To the users browsing my repo, this
- * project was built following the constraints
- * listed below:
+ * NOTE: To the users browsing my repo, this project
+ * was built following the constraints listed below:
  * 2) The board must be displayed and manipulated
  * by using 16 separate variables representing the
  * 16 locations on the board.
@@ -24,7 +23,7 @@
 
 using namespace std;
 
-// these are the global variables
+// Global variables
 const string constCurly = "oOcC";
 const string constStrait = "iIzZ";
 const string constConsts = "cCzZ";
@@ -69,6 +68,7 @@ void displayBoard() {
     cout << "                Vowel/Consonant"<< endl;
 }
 
+// Assigns token to board
 void assignToBoard(char c, int i) {
     switch (i) {
         case  1: b1  = c; break;
@@ -88,9 +88,9 @@ void assignToBoard(char c, int i) {
         case 15: b15 = c; break;
         case 16: b16 = c; break;
     }
-
 }
 
+// Checks if space is available on board
 bool isPositionAvailable(int i) {
     switch (i) {
         case  1: return b1  == '.' ? true : false;
@@ -113,7 +113,7 @@ bool isPositionAvailable(int i) {
     }
 }
 
-
+// Each function checks for their respective win type
 bool isCurl(char c) {
     return constCurly.find(c) != string::npos;
 }
@@ -133,8 +133,9 @@ bool isLower(char c) {
     return constLower.find(c) != string::npos;
 }
 
+// Checks for win combinations
 void checkCombo(char a,char b,char c,char d) {
-    if (isCurl(a) && isCurl(b) && isCurl(c) && isCurl(d)){
+    if (isCurl(a) && isCurl(b) && isCurl(c) && isCurl(d)) {
         activeGame = false;
     } else if (isStrait(a) && isStrait(b) && isStrait(c) && isStrait(d)){
         activeGame = false;
@@ -147,9 +148,9 @@ void checkCombo(char a,char b,char c,char d) {
     } else if (isLower(a) && isLower(b) && isLower(c) && isLower(d)){
         activeGame = false;
     }
-
 }
 
+// Checks winning position
 void checkForWin() {
     // check quadrants
     checkCombo( b1, b2, b5, b6);
@@ -174,13 +175,9 @@ void checkForWin() {
     checkCombo(b4,b7,b10,b13);
 }
 
+// Checks to see if additional tokens are available
 bool emptyTokens() {
-    int stringVal;
-    for (int i = 0; i < avlTkns.size(); ++i) {
-        stringVal += avlTkns.at(i);
-    }
-
-    return stringVal == 558;
+    return avlTkns == "                " ;
 }
 
 
@@ -200,9 +197,8 @@ int main() {
              << " enter destination: ";
 
         cin >> userToken;
-        if (userToken == 'X' ||userToken == 'x' || emptyTokens()) {
+        if (userToken == 'X' ||userToken == 'x') {
             cout << "Exiting program..."  << endl;
-            activeGame = false;
             break;
         }
 
@@ -227,7 +223,15 @@ int main() {
                  cout << "*** Sorry, that destination is occupied.  Please retry." << endl;
             }
         }
-        if (activeGame == false) {
+
+        // Quietly exits game if no winners
+        if (emptyTokens()) {
+            displayBoard();
+            break;
+        }
+
+        // Declares winner and exits game
+        if (!activeGame) {
             displayBoard();
             cout << "*** Player " << (turnNum % 2 ? "1" : "2") << " you won!" << endl;
             break;
