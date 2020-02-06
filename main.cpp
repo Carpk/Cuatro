@@ -24,16 +24,6 @@
 using namespace std;
 
 // Global variables
-const string constCurly = "oOcC";
-const string constStrait = "iIzZ";
-const string constConsts = "cCzZ";
-const string constVowel = "oOiI";
-const string constUpper = "OCIZ";
-const string constLower = "ociz";
-
-string avlTkns = "OOCCIIZZoocciizz";
-bool activeGame = true;
-
 char b1 = '.',  b2 = '.',  b3 = '.',  b4 = '.',  b5 = '.',  b6 = '.',  b7 = '.',  b8 = '.';
 char b9 = '.', b10 = '.', b11 = '.', b12 = '.', b13 = '.', b14 = '.', b15 = '.', b16 = '.';
 
@@ -54,7 +44,7 @@ void displayInstructions() {
          << "When prompted for input you may also enter 'x' or 'X' to exit." << endl;
 }
 
-void displayBoard() {
+void displayBoard(string avlTkns) {
     cout << "       ---------    Square #\n      | "
          << b1  << ' ' << b2  << ' ' << b3  << ' ' << b4  << " |  1  2  3  4\n      | "
          << b5  << ' ' << b6  << ' ' << b7  << ' ' << b8  << " |  5  6  7  8\n      | "
@@ -115,26 +105,32 @@ bool isPositionAvailable(int i) {
 
 // Each function checks for their respective win type
 bool isCurl(char c) {
+    const string constCurly = "oOcC";
     return constCurly.find(c) != string::npos;
 }
 bool isStrait(char c) {
+    const string constStrait = "iIzZ";
     return constStrait.find(c) != string::npos;
 }
 bool isConst(char c) {
+    const string constConsts = "cCzZ";
     return constConsts.find(c) != string::npos;
 }
 bool isVowel(char c) {
+    const string constVowel = "oOiI";
     return constVowel.find(c) != string::npos;
 }
 bool isUpper(char c) {
+    const string constUpper = "OCIZ";
     return constUpper.find(c) != string::npos;
 }
 bool isLower(char c) {
+    const string constLower = "ociz";
     return constLower.find(c) != string::npos;
 }
 
 // Checks for win combinations
-void checkCombo(char a,char b,char c,char d) {
+void checkCombo(char a,char b,char c,char d, bool& activeGame) {
     if (isCurl(a) && isCurl(b) && isCurl(c) && isCurl(d)) {
         activeGame = false;
     } else if (isStrait(a) && isStrait(b) && isStrait(c) && isStrait(d)){
@@ -151,33 +147,33 @@ void checkCombo(char a,char b,char c,char d) {
 }
 
 // Checks winning position
-void checkForWin() {
+void checkForWin(bool& activeGame) {
     // check quadrants
-    checkCombo( b1, b2, b5, b6);
-    checkCombo( b3, b4, b7, b8);
-    checkCombo( b9,b10,b13,b14);
-    checkCombo(b11,b12,b15,b16);
+    checkCombo( b1, b2, b5, b6, activeGame);
+    checkCombo( b3, b4, b7, b8, activeGame);
+    checkCombo( b9,b10,b13,b14, activeGame);
+    checkCombo(b11,b12,b15,b16, activeGame);
 
     // check rows
-    checkCombo( b1, b2, b3, b4);
-    checkCombo( b5, b6, b7, b8);
-    checkCombo( b9,b10,b11,b12);
-    checkCombo(b13,b14,b15,b16);
+    checkCombo( b1, b2, b3, b4, activeGame);
+    checkCombo( b5, b6, b7, b8, activeGame);
+    checkCombo( b9,b10,b11,b12, activeGame);
+    checkCombo(b13,b14,b15,b16, activeGame);
 
     // check columns
-    checkCombo(b1,b5,b9,b13);
-    checkCombo(b2,b6,b10,b14);
-    checkCombo(b3,b7,b11,b15);
-    checkCombo(b4,b8,b12,b16);
+    checkCombo(b1,b5,b9,b13, activeGame);
+    checkCombo(b2,b6,b10,b14, activeGame);
+    checkCombo(b3,b7,b11,b15, activeGame);
+    checkCombo(b4,b8,b12,b16, activeGame);
 
     // check cross
-    checkCombo(b1,b6,b11,b16);
-    checkCombo(b4,b7,b10,b13);
+    checkCombo(b1,b6,b11,b16, activeGame);
+    checkCombo(b4,b7,b10,b13, activeGame);
 }
 
 // Checks to see if additional tokens are available
-bool emptyTokens() {
-    return avlTkns == "                " ;
+bool emptyTokens(string availableTokens) {
+    return availableTokens == "                " ;
 }
 
 
@@ -186,11 +182,14 @@ int main() {
     int userPosition;
     int idx;
     int turnNum = 1;
+    bool activeGame = true;
+    const string acceptableTokens = "oOcCiIzZ";
+    string availableTokens = "OOCCIIZZoocciizz";
 
     displayInstructions();
 
     while (activeGame) {
-        displayBoard();
+        displayBoard(availableTokens);
 
         cout << turnNum << ". Player " << (turnNum % 2 ? "1" : "2")
              << " enter piece, and Player "<< (turnNum % 2 ? "2" : "1")
@@ -205,19 +204,19 @@ int main() {
         cin >> userPosition;
 
         if ((isPositionAvailable(userPosition)) == 1) {
-            idx = avlTkns.find(userToken);
+            idx = availableTokens.find(userToken);
             if (idx > -1 ){
                 turnNum++;
-                avlTkns.replace(idx ,1," ");
+                availableTokens.replace(idx ,1," ");
                 assignToBoard(userToken, userPosition);
-                checkForWin();
+                checkForWin(activeGame);
             } else {
                 cout << "*** Sorry, that is an invalid piece.  Please retry." << endl;
             }
         } else {
              if (userPosition < 1 || userPosition > 16) {
                 cout << "*** Sorry, that destination is invalid.  Please retry." << endl;
-            } else if (!constCurly.find(userToken) || !constStrait.find(userToken)) {
+            } else if (!acceptableTokens.find(userToken)) {
                  cout << "*** Sorry, that is an invalid piece.  Please retry." << endl;
              } else {
                  cout << "*** Sorry, that destination is occupied.  Please retry." << endl;
@@ -225,19 +224,17 @@ int main() {
         }
 
         // Quietly exits game if no winners
-        if (emptyTokens()) {
-            displayBoard();
+        if (emptyTokens(availableTokens)) {
+            displayBoard(availableTokens);
             break;
         }
 
         // Declares winner and exits game
         if (!activeGame) {
-            displayBoard();
+            displayBoard(availableTokens);
             cout << "*** Player " << (turnNum % 2 ? "1" : "2") << " you won!" << endl;
             break;
         }
-
     }
-
     return 0;
 }
